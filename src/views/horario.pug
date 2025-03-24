@@ -34,7 +34,7 @@ block contenido
                                             input(type="hidden" name="aula" value=i+1)
                                             input(type="hidden" name="hora_inicio" value=`${j+16}:00`)
                                             input(type="hidden" name="hora_fin" value=`${j+17}:00`)
-                                            input(type="hidden" name="fecha" value=fecha)
+                                            input(type="hidden" name="fecha" value=`${fecha.getFullYear()}-${Number.parseInt(fecha.getMonth())+1}-${fecha.getDate()}`)
                                             input(type="hidden" name="accion" value="mostrar")
                                             button.hora.hora-libre.border(type="submit", aria-label="Reservar aula #{i+1} de #{j+16}:00 a #{j+17}:00")
                                                 time.peque #{j+16}:00 - #{j+17}:00

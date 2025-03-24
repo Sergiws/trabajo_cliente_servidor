@@ -1,7 +1,5 @@
 import db from '../config/db.js';
 import PDFDocument from 'pdfkit';
-// import fs from 'fs';
-// import path from 'path';
 
 const paginaReserva = (req, res) => {
     res.render('error', {
@@ -21,7 +19,11 @@ const gestionarPeticion = async (req, res) => {
             datos.aula = req.body.aula;
             datos.hora_inicio = req.body.hora_inicio;
             datos.hora_fin = req.body.hora_fin;
-            datos.fecha = req.body.fecha.split('T')[0];
+
+            const [year, month, day] = req.body.fecha.split('-');
+            datos.fecha = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+            // res.send(datos.fecha);
 
             res.render('reserva', {
                 pagina: 'Reserva',
@@ -38,7 +40,7 @@ const gestionarPeticion = async (req, res) => {
             datos.correo = req.body.correo;
 
             try {
-                const sql = `INSERT INTO peticion (CONTACTO, ID_AULA, FECHA, HORA_INICIO, HORA_FIN) VALUES ('${datos.correo}', ${datos.aula}, '${datos.fecha}', '${datos.hora_inicio}', '${datos.hora_fin}')`;
+                const sql = `INSERT INTO peticion (contacto, id_aula, fecha, hora_inicio, hora_fin) VALUES ('${datos.correo}', ${datos.aula}, '${datos.fecha}', '${datos.hora_inicio}', '${datos.hora_fin}')`;
                 const [resultados, metadata] = await db.query(sql);
 
                 res.render('reserva', {

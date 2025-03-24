@@ -13,9 +13,9 @@ const paginaPeticionesPendientes = async (req, res) => {
         // Consulta SQL para obtener las peticiones pendientes con paginación
         const sql = `
             SELECT id_peticion, contacto, id_aula, fecha 
-            FROM PETICION 
-            WHERE ID_PETICION NOT IN (SELECT ID_PETICION FROM GESTION_PETICION)
-            ORDER BY ID_PETICION ASC
+            FROM peticion
+            WHERE id_peticion NOT IN (SELECT id_peticion FROM gestion_peticion)
+            ORDER BY id_peticion ASC
             LIMIT ${porPagina} OFFSET ${offset}
         `;
 
@@ -25,8 +25,8 @@ const paginaPeticionesPendientes = async (req, res) => {
         // Consulta para obtener el total de peticiones pendientes (sin paginación)
         const countSql = `
             SELECT COUNT(*) as total 
-            FROM PETICION 
-            WHERE ID_PETICION NOT IN (SELECT ID_PETICION FROM GESTION_PETICION)
+            FROM peticion
+            WHERE id_peticion NOT IN (SELECT id_peticion FROM gestion_peticion)
         `;
         const [totalPeticiones] = await db.query(countSql);
         const total = totalPeticiones[0].total;
@@ -91,7 +91,7 @@ const administrarPeticion = async (req, res) => {
     const contacto = req.body.contacto;
 
     //Averiguar el admin que gestiona la petición
-    const sql = `SELECT id_admin FROM admin WHERE CORREO='${req.session.admin}'`;
+    const sql = `SELECT id_admin FROM admin WHERE correo='${req.session.admin}'`;
 
     try {
         const [admin, metadata] = await db.query(sql);
@@ -107,7 +107,9 @@ const administrarPeticion = async (req, res) => {
         const sql4 = `
         INSERT INTO gestion_peticion (id_peticion, id_admin, estado)
         SELECT peticion.id_peticion, 4, 'RECHAZADA' FROM peticion
-        WHERE fecha=${peticion.fecha} AND hora_inicio=${peticion.hora_inicio}
+        WHERE fecha='${peticion.fecha}' AND hora_inicio='${peticion.hora_inicio}'
+        AND peticion.id_peticion NOT IN
+            (SELECT id_peticion FROM gestion_peticion)
         `;
         await db.query(sql4);
 

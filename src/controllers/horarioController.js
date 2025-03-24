@@ -9,7 +9,7 @@ const paginaInicio = async (req, res) => {
     const fecha = hoy.toLocaleDateString('es');
 
     try {
-        const sql = `SELECT * FROM CLASE WHERE DIA_SEMANA=${hoy.getDay()}`;
+        const sql = `SELECT * FROM clase WHERE dia_semana=${hoy.getDay()}`;
         const [clasesBD] = await db.query(sql);
 
         const sql2 = `SELECT * FROM gestion_peticion INNER JOIN peticion
@@ -44,7 +44,7 @@ const paginaHorario = async (req, res) => {
     const fecha = hoy.toLocaleDateString('es');
 
     try {
-        const sql = `SELECT * FROM CLASE WHERE DIA_SEMANA=${hoy.getDay()}`;
+        const sql = `SELECT * FROM clase WHERE dia_semana=${hoy.getDay()}`;
         const [clasesBD] = await db.query(sql);
 
         const sql2 = `SELECT * FROM gestion_peticion INNER JOIN peticion

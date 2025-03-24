@@ -31,7 +31,7 @@ const acceder = async (req, res) => {
     }
 
     try{
-        const sql = `SELECT * FROM ADMIN WHERE CORREO='${correo}' AND PASSWORD='${password}'`;
+        const sql = `SELECT * FROM admin WHERE correo='${correo}' AND password='${password}'`;
         const [admin, metadata] = await db.query(sql);
 
         if(admin.length > 0){

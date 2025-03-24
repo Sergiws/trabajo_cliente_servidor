@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `trabajo_servidor` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `trabajo_servidor`;
+-- CREATE DATABASE  IF NOT EXISTS `trabajo_servidor` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `trabajoservidor`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: trabajo_servidor
+-- Host: 127.0.0.1    Database: trabajoservidor
 -- ------------------------------------------------------
 -- Server version	8.0.34
 
