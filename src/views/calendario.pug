@@ -1,0 +1,55 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3
+        .container
+            .d-flex.flex-column.px-3(aria-labelledby='titulo-calendario')
+                h2#titulo-calendario.pb-3 #{titulo}
+                a.btn.btn-black.align-self-center.align-self-md-end.mb-3.mb-md-0(href='/', aria-label='Volver al horario de hoy') Hoy
+
+            p Seleccione un día para consultar el horario
+
+            .bg-white.rounded.p-3.d-flex.flex-column.gap-2
+                .d-flex.justify-content-center.align-items-center.gap-3
+                    if (!anteriorBloqueado)
+                        form(action='/calendario', method='POST')
+                            - const mAnterior = mActual-1 < 0 ? 11 : mActual-1;
+                            - const yAnterior = mAnterior===11 ? yActual-1 : yActual;
+                            input(type='hidden', name='mes', value=mAnterior)
+                            input(type='hidden', name='year', value=yAnterior)
+                            button.btn(type='submit', aria-label='Mes siguiente')
+                                img(src='/img/circle-arrow-left.svg', alt='Ir al mes anterior')
+                    h3 #{mes} #{yActual}
+                    if (!siguienteBloqueado)
+                        form(action='/calendario', method='POST')
+                            - const mSiguiente = mActual+1 === 12 ? 0 : mActual+1;
+                            - const ySiguiente = mSiguiente === 0 ? yActual+1 : yActual;
+                            input(type='hidden', name='mes', value=mSiguiente)
+                            input(type='hidden', name='year', value=ySiguiente)
+                            button.btn(type='submit', aria-label='Mes siguiente')
+                                img(src='/img/circle-arrow-right.svg', alt='Ir al mes siguiente')
+
+                .d-flex.gap-sm-2
+                    .p-sm-3.py-3.flex-grow-1.dia-semana L
+                    .p-sm-3.py-3.flex-grow-1.dia-semana M
+                    .p-sm-3.py-3.flex-grow-1.dia-semana X
+                    .p-sm-3.py-3.flex-grow-1.dia-semana J
+                    .p-sm-3.py-3.flex-grow-1.dia-semana V
+                    .p-sm-3.py-3.flex-grow-1.dia-semana S
+                    .p-sm-3.py-3.flex-grow-1.dia-semana D
+
+
+                each semana in calendario
+                    .d-flex.gap-sm-2
+                        each dia in semana
+                            if (dia === 0)
+                                .p-sm-3.py-3.border.border-white.text-white.dia-mes-vacio(aria-hidden='true') 0
+                            else
+                                if (dia.estaBloqueado)
+                                    .p-sm-3.py-3.border.dia-mes-bloqueado(aria-label=`Día ${dia.dia} bloqueado`) #{dia.dia}
+                                else
+                                    .p-sm-3.py-3.border.dia-mes(onclick=`verHorario(${dia.dia}, ${dia.mes}, ${dia.year})`, aria-label=`Ver horario del día ${dia.dia}`) #{dia.dia}
+
+    script.
+        function verHorario(d, m, y){
+            location.href = `/horario?dia=${d}&mes=${m}&year=${y}`;
+        }

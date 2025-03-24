@@ -1,0 +1,46 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3(aria-labelledby='titulo-reserva')
+        .container
+            .d-flex.flex-column.px-3
+                h2#titulo-reserva.pb-3 #{titulo}
+                a.btn.btn-black.align-self-center.align-self-md-end.mb-3.mb-md-0(type='button', onclick='history.back()') Volver
+            
+            p Confirme su petición de reserva
+
+            if (confirmacion)
+                .alert.alert-success.text-center(role='alert', aria-live='polite') Su petición fue enviada con éxito. Recibirá un correo electrónico con la confirmación de su reserva
+
+            .bg-white.rounded.text-start
+                .row
+                    
+                    img.col-lg-5.img-fluid.object-fit-cover(src=`/img/aula-${datos.aula}.jpg`)
+
+                    .col-lg-7.p-5
+                        form(action='/reserva', method='POST')
+                            .mb-3
+                                label.form-label(for='aula') Aula
+                                input.form-control(type='number', name='aula', id='aula', value=datos.aula, readonly, aria-readonly='true')
+                            .mb-3
+                                label.form-label(for='hora_inicio') Hora de inicio
+                                input.form-control(type='text', name='hora_inicio', id='hora_inicio', value=datos.hora_inicio, readonly, aria-readonly='true')
+                            .mb-3
+                                label.form-label(for='hora_fin') Hora de fin
+                                input.form-control(type='text', name='hora_fin', id='hora_fin', value=datos.hora_fin, readonly, aria-readonly='true')
+                            .mb-3
+                                label.form-label(for='fecha') Fecha
+                                input.form-control(type='date', name='fecha', id='fecha', value=datos.fecha, readonly, aria-readonly='true')
+                            .mb-3
+                                label.form-label(for='correo') Tu correo electrónico
+                                input.form-control(type='email', name='correo', id='correo', placeholder='tucorreo@ejemplo.com',
+                                aria-describedby='correoHelp', value=datos.correo, required)
+                                .form-text(id='correoHelp') Le enviaremos un email confirmando su petición de reserva
+    
+                            
+
+                            if (!confirmacion)
+                                input(type='hidden', name='accion', value='enviar')
+                                button.btn.btn-primary(type='submit') Enviar
+                            else
+                                input(type='hidden', name='accion', value='descargar')
+                                button.btn.btn-primary(type='submit') Descargar PDF

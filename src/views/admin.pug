@@ -1,0 +1,15 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3
+        .container
+            h2.pb-3 #{titulo}
+
+            .row.mb-3
+                a.col-md.border.btn.btn-light.pt-4(href='/peticiones_pendientes')
+                    img.img-fluid.mb-4.w-25(src='/img/peticiones_pendientes.png', alt='Icono Peticiones Pendientes')
+                    h2.mb-4 Peticiones Pendientes
+                a.col-md.border.btn.btn-light.pt-4(href='/historial_peticiones')
+                    img.img-fluid.mb-4.w-25(src='/img/historial_peticiones.png', alt='Icono Historial Peticiones')
+                    h2.mb-4 Historial de peticiones
+
+            a.btn.btn-danger(href="/logout") Logout

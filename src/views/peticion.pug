@@ -1,0 +1,50 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3
+        .container
+            .d-flex.flex-column.px-3
+                h2.pb-3 #{titulo}
+                a.btn.btn-black.align-self-center.align-self-md-end.mb-3.mb-md-0(onclick='history.back()') Volver
+            
+            p Acepte o rechaze la petición de reserva
+
+            .bg-white.rounded.text-start
+                .row
+                    
+                    img.col-lg-5.img-fluid.object-fit-cover(src=`/img/aula-${peticion.id_aula}.jpg`, alt=`Imagen aula ${peticion.id_aula}`)
+
+                    .col-lg-7.p-5
+                        .mb-3
+                            label.form-label(for='aula') Aula
+                            input.form-control(type='number', name='aula', id='aula', value=peticion.id_aula, readonly)
+                        .mb-3
+                            label.form-label(for='hora_inicio') Hora de inicio
+                            input.form-control(type='text', name='hora_inicio', id='hora_inicio', value=peticion.hora_inicio, readonly)
+                        .mb-3
+                            label.form-label(for='hora_fin') Hora de fin
+                            input.form-control(type='text', name='hora_fin', id='hora_fin', value=peticion.hora_fin, readonly)
+                        .mb-3
+                            label.form-label(for='fecha') Fecha
+                            input.form-control(type='date', name='fecha', id='fecha', value=peticion.fecha, readonly)
+                        .mb-3
+                            label.form-label(for='correo') Correo electrónico
+                            input.form-control(type='email', name='correo', id='correo', value=peticion.contacto, readonly)
+                        if (!peticion.estado)
+                            .d-flex.gap-3
+                                form(action='/peticion', method='POST')
+                                    input(type='hidden', name='id', value=peticion.id_peticion)
+                                    input(type='hidden', name='contacto', value=peticion.contacto)
+                                    input(type='hidden', name='estado', value='ACEPTADA')
+                                    button.btn.btn-success(type='submit') Aceptar
+                                form(action='/peticion', method='POST')
+                                    input(type='hidden', name='id', value=peticion.id_peticion)
+                                    input(type='hidden', name='contacto', value=peticion.contacto)
+                                    input(type='hidden', name='estado', value='RECHAZADA')
+                                    button.btn.btn-danger(type='submit') Rechazar
+                        else
+                            .mb-3
+                                label.form-label(for='estado') Estado
+                                input.form-control(type='text', name='estado', id='estado', value=peticion.estado, readonly)
+                            .mb-3
+                                label.form-label(for='admin') Administrador
+                                input.form-control(type='text', name='admin', id='admin', value=peticion.correo, readonly)

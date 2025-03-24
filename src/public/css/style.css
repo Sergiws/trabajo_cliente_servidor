@@ -1,0 +1,87 @@
+body {
+    background-color: #e5e4e5;
+}
+
+.btn-black {
+    background-color: black;
+    color: white;
+}
+
+.btn-black:hover {
+    background-color: rgb(255, 153, 0);
+    color: white;
+}
+
+.btn-black:any-link {
+    color: white;
+}
+
+.dia {
+    position: relative;
+    height: 100%;
+}
+
+.peque {
+    font-size: 12px;
+}
+
+.hora {
+    height: 120px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.hora-libre {
+    background-color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.hora-libre:hover {
+    background-color: rgb(255, 153, 0);
+    color: white;
+}
+
+.hora-ocupada {
+    position: absolute;
+    z-index: 10;
+}
+
+.dia-semana {
+    background-color: #af1e38;
+    color: white;
+}
+
+.dia-mes, .dia-mes-bloqueado, .dia-mes-vacio {
+    flex: 1;
+}
+
+.dia-mes {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dia-mes:hover {
+    background-color: rgb(255, 153, 0);
+    color: white;
+}
+
+.dia-mes-bloqueado {
+    background-color: #a4a4a4;
+}
+
+.tabla-contacto {
+    max-width: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.btn-primary {
+    position: relative;
+    z-index: 20;
+}

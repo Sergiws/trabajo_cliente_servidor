@@ -1,0 +1,7 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3(aria-labelledby='titulo-error')
+        .container
+            h2#titulo-error.pb-3 #{titulo}
+
+            .alert.alert-danger(role='alert', aria-live='assertive') #{mensaje}

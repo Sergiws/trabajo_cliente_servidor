@@ -1,0 +1,59 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3(aria-labelledby="titulo-horario")
+        .container
+            .d-flex.flex-column.px-3
+                h2#titulo-horario.pb-3 #{titulo}
+                a.btn.btn-black.align-self-center.align-self-md-end.mb-3.mb-md-0(href='/calendario', aria-label="Ir al calendario") Calendario
+            p Seleccione la hora de un aula libre para reservarla
+
+            //- color HUE, 360 = rojo
+            - let color = 360;
+            //- luminosidad en porcentaje, 50% = color normal
+            - let luminosidad = 50;
+
+            //- Horario
+            section.row.bg-white.rounded.px-3.pt-3.g-0(aria-label="Tabla de disponibilidad de aulas")
+
+                if (fecha.getDay() == 0 || fecha.getDay() == 6)
+                    p ¡La academia cierra el fin de semana!
+                else
+
+                    //- Columnas del horario
+                    each aula, i in disponibilidad
+                        .col-sm-6.col-md-4.col-lg-2.mb-3(role="columnheader", aria-label="Aula #{i+1}")
+                            .p-2
+                                .p-3.rounded.text-white.mb-2.fw-bolder(style=`background-color: hsl(${color-i*20}, 80%, 50%)`)
+                                    |Aula #{i+1}
+                            
+                            //- Horas del horario
+                            .dia(role="rowgroup")
+                                each hora, j in aula
+                                    if (hora)
+                                        form(action="/reserva" method="POST")
+                                            input(type="hidden" name="aula" value=i+1)
+                                            input(type="hidden" name="hora_inicio" value=`${j+16}:00`)
+                                            input(type="hidden" name="hora_fin" value=`${j+17}:00`)
+                                            input(type="hidden" name="fecha" value=fecha)
+                                            input(type="hidden" name="accion" value="mostrar")
+                                            button.hora.hora-libre.border(type="submit", aria-label="Reservar aula #{i+1} de #{j+16}:00 a #{j+17}:00")
+                                                time.peque #{j+16}:00 - #{j+17}:00
+                                                span.text-white.fw-bold Reservar
+                                    else
+                                        .hora.border(role="cell")
+                                            span.peque &nbsp;
+                                            span.text-white.fw-bold &nbsp;
+                                //- Horas ocupadas
+                                each clase in clases
+                                    if (clase.aula == i+1)
+                                        - luminosidad = 50;
+                                        .hora.hora-ocupada(style=`top:${clase.top}px; height:${clase.height}px;
+                                        background-color: hsl(${color-i*20}, 80%, ${luminosidad-clase.top/24}%)`)
+                                            span.peque.text-white #{clase.hora_inicio} - #{clase.hora_fin}
+                                            span.fw-bold.text-white #{clase.nombre}
+                                    if (clase.id_aula == i+1)
+                                        - luminosidad = 50;
+                                        .hora.hora-ocupada(style=`top:${clase.top}px; height:${clase.height}px;
+                                        background-color: hsl(${color-i*20}, 80%, ${luminosidad-clase.top/24}%)`)
+                                            span.peque.text-white #{clase.hora_inicio} - #{clase.hora_fin}
+                                            span.fw-bold.text-white Reservada

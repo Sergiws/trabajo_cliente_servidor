@@ -1,0 +1,44 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3
+        .container
+            .d-flex.flex-column.px-3
+                h2.pb-3 #{titulo}
+                a.btn.btn-black.align-self-center.align-self-md-end.mb-3(href='/admin') Volver
+
+            .bg-white.rounded.text-start.p-3
+                table.table.table-borderless
+                    thead.table-dark
+                        th Cliente
+                        th.text-center Aula
+                        th.text-center Fecha
+                        th.text-end Opciones
+                    each peticion in peticiones
+                        if (peticion.estado === 'ACEPTADA')
+                            tr.table-success
+                                td.tabla-contacto #{peticion.contacto}
+                                td.text-center #{peticion.id_aula}
+                                td.text-center #{peticion.fecha}
+                                td.text-end
+                                    form(action='/peticiones_pendientes', method='POST')
+                                        input(type='hidden', name='id', value=peticion.id_peticion)
+                                        button.btn.btn-warning(type='submit') Ver
+                        if (peticion.estado === 'RECHAZADA')
+                            tr.table-danger
+                                td.tabla-contacto #{peticion.contacto}
+                                td.text-center #{peticion.id_aula}
+                                td.text-center #{peticion.fecha}
+                                td.text-end
+                                    form(action='/peticiones_pendientes', method='POST')
+                                        input(type='hidden', name='id', value=peticion.id_peticion)
+                                        button.btn.btn-warning(type='submit') Ver
+
+            .d-flex.justify-content-center.gap-3
+                if (paginacion.tieneAnterior)
+                    a(href=`/historial_peticiones?pagina=${paginacion.paginaActual - 1}`)
+                        img.img-fluid(src='/img/circle-arrow-left.svg', alt='anterior')
+                if (paginacion.totalPaginas !== 1)
+                    p #{paginacion.paginaActual}/#{paginacion.totalPaginas}
+                if (paginacion.tieneSiguiente)
+                    a(href=`/historial_peticiones?pagina=${paginacion.paginaActual + 1}`)
+                        img(src='/img/circle-arrow-right.svg', alt='siguiente')

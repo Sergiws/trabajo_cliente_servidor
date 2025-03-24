@@ -1,0 +1,24 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3(aria-labelledby='titulo-login')
+        .container
+            h2#titulo-login.pb-3 #{titulo}
+
+            each error in errores
+                .alert.alert-danger(role='alert', aria-live='assertive') #{error.mensaje}
+
+            .bg-white.rounded.text-start
+                .row
+                    img.col-lg-5.img-fluid.object-fit-cover(src='/img/admin.jpg')
+
+                    .col-lg-7.p-5
+                        form(action='/login', method='POST')
+                            .mb-3
+                                label.form-label(for='correo') Correo Electrónico
+                                input.form-control(type='email', name='correo', id='correo', value=correo)
+                            .mb-3
+                                label.form-label(for='password') Contraseña
+                                input.form-control(type='password', name='password', id='password')
+                            
+                            button.btn.btn-primary(type="submit") Acceder
+                            

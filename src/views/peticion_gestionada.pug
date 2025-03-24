@@ -1,0 +1,9 @@
+extends ./layout/layout
+block contenido
+    main.text-center.py-3
+        .container
+            h2.pb-3 #{titulo}
+
+            .alert.alert-info #{mensaje}
+
+            a.btn.btn-primary(href='/peticiones_pendientes') Volver
